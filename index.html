@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloom: тестовая версия</title>
+<meta name="description" content="Bloom: learning, picture talk and calm play for children. Android test version.">
+<link rel="icon" href="icon.png">
+<style>
+  :root { --sky: #DCEFFA; --ground: #FBF8F1; --card: #FFFFFF; --ink: #24453A; --soft: #4F6E63; --line: #E4DCCB; --forest: #2F6B55; --sun: #F6C453; --on: #FFFFFF; }
+  @media (prefers-color-scheme: dark) { :root { --sky: #18303A; --ground: #121A17; --card: #1B2622; --ink: #E5EFEA; --soft: #A8BEB4; --line: #2C3B35; --forest: #8FD0B2; --on: #10201A; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 17px/1.55 system-ui, "Segoe UI", Roboto, "Noto Sans Arabic", Tahoma, sans-serif; }
+  .band { background: var(--sky); padding: 28px 16px 22px; }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header { display: flex; gap: 16px; align-items: center; }
+  header img { width: 72px; height: 72px; border-radius: 18px; flex: none; }
+  h1 { margin: 0; font-size: 1.9rem; line-height: 1.15; color: var(--forest); }
+  .sub { margin: 4px 0 0; color: var(--soft); }
+  nav { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+  nav button { font: inherit; font-weight: 700; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 8px 16px; min-height: 44px; cursor: pointer; }
+  nav button[aria-pressed="true"] { background: var(--forest); color: var(--on); border-color: var(--forest); }
+  .get { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; margin-top: 18px; background: var(--card); border-radius: 22px; padding: 18px; }
+  .dl { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--forest); color: var(--on); text-decoration: none; font-weight: 800; font-size: 1.15rem; padding: 14px 22px; border-radius: 16px; min-height: 56px; }
+  .meta { margin: 10px 0 0; color: var(--soft); font-size: .92rem; }
+  .qr { text-align: center; }
+  .qr img { width: 150px; height: 150px; background: #fff; border-radius: 12px; padding: 4px; }
+  .qr p { margin: 4px 0 0; font-size: .82rem; color: var(--soft); max-width: 160px; }
+  main { padding: 8px 16px 56px; }
+  section[hidden] { display: none; }
+  h2 { font-size: 1.2rem; margin: 26px 0 8px; }
+  ol, ul { padding-inline-start: 1.3em; margin: 0; display: grid; gap: 8px; }
+  .note { background: var(--card); border: 1.5px solid var(--line); border-radius: 16px; padding: 12px 14px; margin-top: 14px; color: var(--soft); }
+  a { color: var(--forest); }
+  :focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+  @media (max-width: 560px) { .get { grid-template-columns: 1fr; } .qr { order: -1; } }
+</style>
+</head>
+<body>
+<div class="band"><div class="wrap">
+  <header>
+    <img src="icon.png" alt="">
+    <div>
+      <h1>Bloom</h1>
+      <p class="sub" id="sub">Тестовая версия для Android</p>
+    </div>
+  </header>
+  <nav aria-label="Language">
+    <button type="button" data-l="ru">Русский</button>
+    <button type="button" data-l="en">English</button>
+    <button type="button" data-l="ar">العربية</button>
+  </nav>
+  <div class="get">
+    <div>
+      <a class="dl" id="dl" href="https://github.com/ViolettaNcl/bloom-beta/releases/latest/download/Bloom.apk">⬇ <span id="dlText">Скачать Bloom</span></a>
+      <p class="meta" id="meta">Android 8 и новее · около 18 МБ · без рекламы и без интернета</p>
+    </div>
+    <div class="qr"><img src="qr.png" alt="QR"><p id="qrText">Отсканируйте камерой телефона, чтобы открыть эту страницу</p></div>
+  </div>
+</div></div>
+
+<main><div class="wrap">
+<section data-l="ru" lang="ru">
+  <h2>Как установить</h2>
+  <ol>
+    <li>Откройте эту страницу <b>на телефоне Android</b> и нажмите «Скачать Bloom».</li>
+    <li>Когда файл скачается, нажмите «Открыть». Если телефон спросит, разрешите браузеру устанавливать приложения («Неизвестные приложения» → «Разрешить»).</li>
+    <li>Если Google Play Защита предупредит о неизвестном разработчике, нажмите «Подробнее» → «Всё равно установить». Это тестовая версия, её ещё нет в Play Маркете.</li>
+    <li>Откройте приложение <b>Bloom Dev</b> и выберите English или العربية.</li>
+  </ol>
+  <h2>Чтобы Bloom говорил</h2>
+  <p>Настройки → Система → Языки → Синтез речи → Google → установите английский и арабский голос.</p>
+  <h2>Что проверить</h2>
+  <ul>
+    <li>Сад, «Путь мышления» и новые задания: дорожка цифр, обводка пальцем, две корзины, тайный код, счёты, дороги букв.</li>
+    <li>Talk: составить фразу и послушать её.</li>
+    <li>Арабский интерфейс, звук и музыку (их можно выключить).</li>
+    <li>Удобно ли ребёнку, всё ли спокойно и понятно.</li>
+  </ul>
+  <p class="note">Напишите замечания тому, кто прислал вам эту ссылку: модель телефона, что делали и что заметили. Новые версии ставятся поверх по этой же ссылке, данные сохраняются. Приложение работает без интернета и ничего никуда не отправляет.</p>
+</section>
+
+<section data-l="en" lang="en" hidden>
+  <h2>How to install</h2>
+  <ol>
+    <li>Open this page <b>on an Android phone</b> and tap Download Bloom.</li>
+    <li>When the file has downloaded, tap Open. If the phone asks, allow your browser to install apps (Install unknown apps → Allow).</li>
+    <li>If Google Play Protect warns about an unknown developer, tap More details → Install anyway. This is a test version and is not on Google Play yet.</li>
+    <li>Open <b>Bloom Dev</b> and choose English or العربية.</li>
+  </ol>
+  <h2>To hear Bloom speak</h2>
+  <p>Settings → System → Languages → Text-to-speech → Google → install the English and Arabic voices.</p>
+  <h2>What to try</h2>
+  <ul>
+    <li>The garden, the thinking path and the new tasks: number trail, finger tracing, two baskets, secret key, abacus, letter roads.</li>
+    <li>Talk: build a sentence and listen to it.</li>
+    <li>The Arabic layout, sound and music (both can be turned off).</li>
+    <li>Whether everything feels calm and clear for a child.</li>
+  </ul>
+  <p class="note">Send your notes to the person who shared this link: your phone model, what you did and what you noticed. New versions install over the old one from this same link and keep the data. The app works offline and sends nothing anywhere.</p>
+</section>
+
+<section data-l="ar" lang="ar" dir="rtl" hidden>
+  <h2>طريقة التثبيت</h2>
+  <ol>
+    <li>افتح هذه الصفحة <b>على هاتف أندرويد</b> واضغط «تنزيل بلوم».</li>
+    <li>بعد اكتمال التنزيل اضغط «فتح». إذا طلب الهاتف ذلك، اسمح للمتصفح بتثبيت التطبيقات (تثبيت تطبيقات غير معروفة ← سماح).</li>
+    <li>إذا ظهر تحذير من Google Play Protect بشأن مطوّر غير معروف، اضغط «مزيد من التفاصيل» ← «التثبيت على أي حال». هذه نسخة تجريبية وليست في Google Play بعد.</li>
+    <li>افتح تطبيق <b>بلوم تجريبي</b> واختر العربية أو English.</li>
+  </ol>
+  <h2>لكي يتكلم بلوم</h2>
+  <p>الإعدادات ← النظام ← اللغات ← تحويل النص إلى كلام ← Google ← ثبّت الصوت العربي والإنجليزي.</p>
+  <h2>ماذا تجرّب</h2>
+  <ul>
+    <li>الحديقة ودرب التفكير والمهام الجديدة: درب الأعداد، التتبّع بالإصبع، السلّتان، المفتاح السري، العدّاد، طرق الحروف.</li>
+    <li>التواصل: كوّن جملة واستمع إليها.</li>
+    <li>الواجهة العربية والأصوات والموسيقى (يمكن إيقافها).</li>
+    <li>هل كل شيء هادئ وواضح للطفل؟</li>
+  </ul>
+  <p class="note">أرسل ملاحظاتك إلى من أرسل لك هذا الرابط: نوع الهاتف، وما فعلته، وما لاحظته. تُثبَّت النسخ الجديدة فوق القديمة من الرابط نفسه وتبقى البيانات. يعمل التطبيق دون إنترنت ولا يرسل أي شيء.</p>
+</section>
+</div></main>
+
+<script>
+const T = {
+  ru: { sub: "Тестовая версия для Android", dl: "Скачать Bloom", meta: "Android 8 и новее · около 18 МБ · без рекламы и без интернета", qr: "Отсканируйте камерой телефона, чтобы открыть эту страницу", title: "Bloom: тестовая версия" },
+  en: { sub: "Android test version", dl: "Download Bloom", meta: "Android 8 or later · about 18 MB · no ads, works offline", qr: "Scan with your phone camera to open this page", title: "Bloom: test version" },
+  ar: { sub: "نسخة تجريبية لأندرويد", dl: "تنزيل بلوم", meta: "أندرويد ٨ أو أحدث · نحو ١٨ ميغابايت · بلا إعلانات ويعمل دون إنترنت", qr: "امسح الرمز بكاميرا الهاتف لفتح هذه الصفحة", title: "بلوم: نسخة تجريبية" },
+};
+function show(l) {
+  document.querySelectorAll("section[data-l]").forEach(s => s.hidden = s.dataset.l !== l);
+  document.querySelectorAll("nav button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.l === l)));
+  const t = T[l];
+  document.getElementById("sub").textContent = t.sub; document.getElementById("dlText").textContent = t.dl;
+  document.getElementById("meta").textContent = t.meta; document.getElementById("qrText").textContent = t.qr;
+  document.documentElement.lang = l; document.title = t.title;
+  document.querySelector(".band").dir = l === "ar" ? "rtl" : "ltr";
+  try { localStorage.setItem("bloom-beta-lang", l); } catch (_) {}
+}
+document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => show(b.dataset.l)));
+let start = "ru";
+try { start = localStorage.getItem("bloom-beta-lang") || ""; } catch (_) {}
+if (!T[start]) { const n = (navigator.language || "ru").slice(0, 2); start = T[n] ? n : "en"; }
+show(start);
+</script>
+</body>
+</html>
