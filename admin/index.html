@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bloom — коды доступа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f9f4;--card:#fff;--ink:#24453a;--soft:#5b6e68;--line:#e4ddd0;--forest:#3f9269;--mint:#dff1e3;--sun:#f6c453;--sunlight:#fff1c9;--rose:#f28c9b;--red:#c85a46}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13201b;--card:#1b2a24;--ink:#e6f2ec;--soft:#a5b8b0;--line:#2f4239;--mint:#1f3a2e;--sunlight:#3b331d}}
+:root[data-theme="dark"]{--bg:#13201b;--card:#1b2a24;--ink:#e6f2ec;--soft:#a5b8b0;--line:#2f4239;--mint:#1f3a2e;--sunlight:#3b331d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,.brand{font-family:"Baloo 2",system-ui,sans-serif;margin:0}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.logo{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff7d6,#f6c453 60%,#e0a93a);display:grid;place-items:center;font-size:24px}
+.brand{font-size:26px;font-weight:800}.grow{flex:1}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+label{display:block;font-weight:600;margin:8px 0 4px;color:var(--soft);font-size:13px}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:10px 14px;cursor:pointer;background:var(--forest);color:#fff;min-height:44px}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}button.warn{background:var(--red)}button.sun{background:var(--sun);color:#24453a}
+button:disabled{opacity:.5;cursor:default}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.stat{background:var(--mint);border-radius:14px;padding:12px}.stat b{display:block;font-size:26px;font-family:"Baloo 2",sans-serif}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.row>*{flex:1;min-width:150px}
+table{width:100%;border-collapse:collapse}th,td{text-align:start;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--soft);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.code{font-family:ui-monospace,Consolas,monospace;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+.pill.ok{background:var(--mint);color:var(--forest)}.pill.off{background:#fde2dc;color:var(--red)}.pill.wait{background:var(--sunlight);color:#8a6a10}
+.muted{color:var(--soft);font-size:13px}.err{color:var(--red);font-weight:600}.hide{display:none!important}
+.actions{display:flex;gap:6px;flex-wrap:wrap}.actions button{padding:6px 10px;min-height:36px;font-size:13px}
+.new{display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:var(--sunlight);border-radius:16px;padding:14px;margin-top:12px}
+#qr{background:#fff;padding:8px;border-radius:12px}
+.tablewrap{overflow-x:auto}
+@media (max-width:640px){th:nth-child(4),td:nth-child(4),th:nth-child(6),td:nth-child(6){display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo" aria-hidden="true">🌼</div>
+    <div class="brand">Bloom · коды доступа</div>
+    <div class="grow"></div>
+    <span id="who" class="muted"></span>
+    <button id="logout" class="ghost hide">Выйти</button>
+  </header>
+
+  <!-- First time: the Supabase project address and its public key (kept only in this browser). -->
+  <section id="setup" class="card hide">
+    <h2>Подключение к Supabase</h2>
+    <p class="muted">Supabase › Project Settings › API: скопируйте Project URL и ключ anon public. Они сохранятся только в этом браузере.</p>
+    <label for="url">Project URL</label><input id="url" placeholder="https://xxxx.supabase.co">
+    <label for="anon">anon public key</label><input id="anon" placeholder="eyJhbGciOi...">
+    <p><button id="saveSetup">Сохранить</button></p>
+  </section>
+
+  <section id="login" class="card hide">
+    <h2>Вход для администратора</h2>
+    <label for="email">E-mail</label><input id="email" type="email" autocomplete="username">
+    <label for="pass">Пароль</label><input id="pass" type="password" autocomplete="current-password">
+    <p><button id="signin">Войти</button> <button id="resetSetup" class="ghost">Другой проект</button></p>
+    <p id="loginErr" class="err"></p>
+  </section>
+
+  <main id="app" class="hide">
+    <section class="grid" aria-label="Итоги">
+      <div class="stat"><span class="muted">Всего кодов</span><b id="sTotal">0</b></div>
+      <div class="stat"><span class="muted">Активированы</span><b id="sActive">0</b></div>
+      <div class="stat"><span class="muted">Ждут активации</span><b id="sWait">0</b></div>
+      <div class="stat"><span class="muted">Новых за 30 дней</span><b id="sMonth">0</b></div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h2>Новый код для ребёнка</h2>
+      <div class="row">
+        <div><label for="child">Имя ребёнка (так Bloom будет здороваться)</label><input id="child" maxlength="40" placeholder="Анна"></div>
+        <div><label for="parent">E-mail родителя</label><input id="parent" type="email" maxlength="120" placeholder="mama@example.com"></div>
+        <div style="max-width:150px"><label for="devices">Устройств</label><select id="devices"><option>1</option><option selected>2</option><option>3</option></select></div>
+      </div>
+      <label for="note">Заметка (оплата, город, телефон…)</label><input id="note" maxlength="500">
+      <p><button id="create">Создать код</button> <span id="createErr" class="err"></span></p>
+      <div id="made" class="new hide">
+        <div id="qr" aria-label="QR-код"></div>
+        <div>
+          <div class="muted">Код для <b id="madeChild"></b></div>
+          <div class="code" id="madeCode" style="font-size:26px"></div>
+          <p class="actions"><button id="copyCode" class="sun">Скопировать код</button> <button id="copyMsg" class="ghost">Скопировать сообщение для родителя</button></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="row" style="align-items:center">
+        <h2 style="flex:0 0 auto">Семьи и коды</h2>
+        <input id="search" placeholder="Поиск: имя, e-mail, код">
+        <select id="filter" style="max-width:190px"><option value="all">Все</option><option value="active">Активированы</option><option value="wait">Ждут активации</option><option value="revoked">Отозваны</option></select>
+        <button id="csv" class="ghost" style="flex:0 0 auto">CSV</button>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Ребёнок</th><th>Код</th><th>Статус</th><th>Родитель</th><th>Устройства</th><th>Создан</th><th></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p id="empty" class="muted hide">Пока нет кодов.</p>
+    </section>
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const store = { get(k){ try { return localStorage.getItem(k) } catch { return null } }, set(k,v){ try { localStorage.setItem(k,v) } catch {} }, del(k){ try { localStorage.removeItem(k) } catch {} } };
+let db = null, licenses = [], activations = [];
+const fmt = d => d ? new Date(d).toLocaleDateString('ru-RU', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+function show(id){ ['setup','login','app'].forEach(x => $(x).classList.toggle('hide', x !== id)); }
+
+function connect(){
+  const url = store.get('bloomUrl'), key = store.get('bloomAnon');
+  if (!url || !key) { show('setup'); return; }
+  db = supabase.createClient(url, key);
+  db.auth.getSession().then(({ data }) => data.session ? enter(data.session) : show('login'));
+}
+$('saveSetup').onclick = () => { store.set('bloomUrl', $('url').value.trim()); store.set('bloomAnon', $('anon').value.trim()); connect(); };
+$('resetSetup').onclick = () => { store.del('bloomUrl'); store.del('bloomAnon'); show('setup'); };
+$('signin').onclick = async () => {
+  $('loginErr').textContent = '';
+  const { data, error } = await db.auth.signInWithPassword({ email: $('email').value.trim(), password: $('pass').value });
+  if (error) { $('loginErr').textContent = 'Не получилось войти: ' + error.message; return; }
+  enter(data.session);
+};
+$('logout').onclick = async () => { await db.auth.signOut(); $('logout').classList.add('hide'); $('who').textContent = ''; show('login'); };
+
+async function enter(session){
+  const { data: me } = await db.from('admins').select('user_id').eq('user_id', session.user.id).maybeSingle();
+  if (!me) { $('loginErr').textContent = 'Этот аккаунт не администратор. Добавьте его в таблицу admins (см. инструкцию).'; await db.auth.signOut(); show('login'); return; }
+  $('who').textContent = session.user.email; $('logout').classList.remove('hide');
+  show('app'); load();
+}
+
+async function load(){
+  const [l, a] = await Promise.all([db.from('licenses').select('*').order('created_at', { ascending: false }), db.from('activations').select('*')]);
+  licenses = l.data || []; activations = a.data || [];
+  render();
+}
+function devicesOf(id){ return activations.filter(a => a.license_id === id); }
+function state(l){ return l.status === 'revoked' ? 'revoked' : (l.activated_at ? 'active' : 'wait'); }
+function render(){
+  const q = $('search').value.trim().toLowerCase(), f = $('filter').value;
+  const month = Date.now() - 30 * 864e5;
+  $('sTotal').textContent = licenses.length;
+  $('sActive').textContent = licenses.filter(l => state(l) === 'active').length;
+  $('sWait').textContent = licenses.filter(l => state(l) === 'wait').length;
+  $('sMonth').textContent = licenses.filter(l => new Date(l.created_at) > month).length;
+  const shown = licenses.filter(l => (f === 'all' || state(l) === f) && (!q || [l.child_name, l.parent_email, l.code, l.note].some(v => (v || '').toLowerCase().includes(q))));
+  $('empty').classList.toggle('hide', shown.length > 0);
+  $('rows').innerHTML = shown.map(l => {
+    const d = devicesOf(l.id), s = state(l);
+    const pill = s === 'active' ? '<span class="pill ok">активирован</span>' : s === 'wait' ? '<span class="pill wait">ждёт</span>' : '<span class="pill off">отозван</span>';
+    const last = d.reduce((m, x) => x.last_seen > m ? x.last_seen : m, '');
+    return `<tr>
+      <td><b>${esc(l.child_name)}</b>${l.note ? `<div class="muted">${esc(l.note)}</div>` : ''}</td>
+      <td class="code">${esc(l.code)}</td>
+      <td>${pill}<div class="muted">${l.activated_at ? 'с ' + fmt(l.activated_at) : ''}</div></td>
+      <td>${esc(l.parent_email || '—')}</td>
+      <td>${d.length} / ${l.max_devices}${last ? `<div class="muted">был ${fmt(last)}</div>` : ''}${d.map(x => `<div class="muted">${esc(x.device_name || 'устройство')}</div>`).join('')}</td>
+      <td>${fmt(l.created_at)}</td>
+      <td class="actions">
+        <button class="ghost" onclick="copy('${esc(l.code)}')">Копировать</button>
+        ${d.length ? `<button class="ghost" onclick="resetDevices('${l.id}')">Сбросить устройства</button>` : ''}
+        ${l.status === 'active' ? `<button class="warn" onclick="setStatus('${l.id}','revoked')">Отозвать</button>` : `<button onclick="setStatus('${l.id}','active')">Вернуть</button>`}
+      </td></tr>`;
+  }).join('');
+}
+$('search').oninput = render; $('filter').onchange = render;
+
+$('create').onclick = async () => {
+  $('createErr').textContent = '';
+  const child = $('child').value.trim();
+  if (!child) { $('createErr').textContent = 'Введите имя ребёнка.'; return; }
+  $('create').disabled = true;
+  const { data, error } = await db.rpc('admin_create_license', { p_child: child, p_email: $('parent').value.trim() || null, p_devices: +$('devices').value, p_note: $('note').value.trim() || null });
+  $('create').disabled = false;
+  if (error) { $('createErr').textContent = 'Ошибка: ' + error.message; return; }
+  const made = Array.isArray(data) ? data[0] : data;
+  $('madeChild').textContent = made.child_name; $('madeCode').textContent = made.code;
+  $('qr').innerHTML = ''; new QRCode($('qr'), { text: made.code, width: 132, height: 132 });
+  $('made').classList.remove('hide');
+  ['child', 'parent', 'note'].forEach(id => $(id).value = '');
+  load();
+};
+function message(){ return `Здравствуйте! Спасибо за покупку Bloom 🌼\nКод доступа для ${$('madeChild').textContent}: ${$('madeCode').textContent}\nОткройте Bloom, выберите язык и введите этот код. Он работает на ${$('devices').value} устройствах этого ребёнка.`; }
+async function copy(text){ try { await navigator.clipboard.writeText(text) } catch {} }
+$('copyCode').onclick = () => copy($('madeCode').textContent);
+$('copyMsg').onclick = () => copy(message());
+async function setStatus(id, status){ if (status === 'revoked' && !confirm('Отозвать код? Bloom на устройствах семьи закроется при следующей проверке.')) return; await db.from('licenses').update({ status }).eq('id', id); load(); }
+async function resetDevices(id){ if (!confirm('Сбросить устройства? Код можно будет снова активировать на новых устройствах.')) return; await db.from('activations').delete().eq('license_id', id); load(); }
+$('csv').onclick = () => {
+  const head = ['child', 'code', 'status', 'parent_email', 'devices', 'max_devices', 'created_at', 'activated_at', 'note'];
+  const rows = licenses.map(l => [l.child_name, l.code, state(l), l.parent_email, devicesOf(l.id).length, l.max_devices, l.created_at, l.activated_at, l.note]);
+  const cell = v => { const s = String(v ?? ''); const g = /^[=+\-@]/.test(s) ? "'" + s : s; return /[",\n]/.test(g) ? '"' + g.replace(/"/g, '""') + '"' : g; };
+  const blob = new Blob(['﻿' + [head, ...rows].map(r => r.map(cell).join(',')).join('\r\n')], { type: 'text/csv' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'bloom-codes.csv'; a.click();
+};
+connect();
+</script>
+</body>
+</html>
