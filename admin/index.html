@@ -120,8 +120,11 @@ const fmt = d => d ? new Date(d).toLocaleDateString('ru-RU', { day: '2-digit', m
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 function show(id){ ['setup','login','app'].forEach(x => $(x).classList.toggle('hide', x !== id)); }
 
+// Bloom's own project; another project can still be chosen with "Другой проект".
+const DEFAULT_URL = 'https://plxehhtqlneginkklefy.supabase.co';
+const DEFAULT_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBseGVoaHRxbG5lZ2lua2tsZWZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3NzA4MTcsImV4cCI6MjEwODM0NjgxN30.qAt1HJJdmkqITj_HPFBlEcEwmDk7SXynkJkBDUBe71k';
 function connect(){
-  const url = store.get('bloomUrl'), key = store.get('bloomAnon');
+  const url = store.get('bloomUrl') || DEFAULT_URL, key = store.get('bloomAnon') || DEFAULT_ANON;
   if (!url || !key) { show('setup'); return; }
   db = supabase.createClient(url, key);
   db.auth.getSession().then(({ data }) => data.session ? enter(data.session) : show('login'));
