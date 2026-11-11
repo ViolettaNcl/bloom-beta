@@ -1,5 +1,6 @@
 # Bloom: test version
 
-Public download page for testers of the Bloom Android app: https://violettancl.github.io/bloom-beta/
+Download page for testers of the Bloom Android app: https://violettancl.github.io/bloom-beta/
 
-The source code is private; this repository holds only the page and the test builds (Releases).
+The page is in English, Arabic and French, with app previews, download buttons and a QR card.
+Test builds are in the `preview` release. The source code is private.

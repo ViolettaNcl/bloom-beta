@@ -1,146 +1,125 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bloom: тестовая версия</title>
-<meta name="description" content="Bloom: learning, picture talk and calm play for children. Android test version.">
+<title>Bloom: test version</title>
+<meta name="description" content="Bloom: calm learning, picture talk and play for children. Android test version.">
+<meta property="og:title" content="Bloom">
+<meta property="og:description" content="Calm learning, picture talk and play for children.">
+<meta property="og:image" content="https://violettancl.github.io/bloom-beta/previews/banner.webp">
 <link rel="icon" href="icon.png">
 <style>
-  :root { --sky: #DCEFFA; --ground: #FBF8F1; --card: #FFFFFF; --ink: #24453A; --soft: #4F6E63; --line: #E4DCCB; --forest: #2F6B55; --sun: #F6C453; --on: #FFFFFF; }
-  @media (prefers-color-scheme: dark) { :root { --sky: #18303A; --ground: #121A17; --card: #1B2622; --ink: #E5EFEA; --soft: #A8BEB4; --line: #2C3B35; --forest: #8FD0B2; --on: #10201A; } }
+  :root { --bg: #FBF7F0; --card: #FFFFFF; --ink: #24453A; --soft: #55706A; --line: #E8DFCE; --forest: #2F6B55; --sun: #F6C453; --lilac: #EDE5FA; --on: #FFFFFF; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #121A17; --card: #1B2622; --ink: #E5EFEA; --soft: #A8BEB4; --line: #2C3B35; --forest: #8FD0B2; --lilac: #231F33; --on: #10201A; } }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--ground); color: var(--ink); font: 17px/1.55 system-ui, "Segoe UI", Roboto, "Noto Sans Arabic", Tahoma, sans-serif; }
-  .band { background: var(--sky); padding: 28px 16px 22px; }
-  .wrap { max-width: 760px; margin: 0 auto; }
-  header { display: flex; gap: 16px; align-items: center; }
-  header img { width: 72px; height: 72px; border-radius: 18px; flex: none; }
-  h1 { margin: 0; font-size: 1.9rem; line-height: 1.15; color: var(--forest); }
-  .sub { margin: 4px 0 0; color: var(--soft); }
-  nav { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
-  nav button { font: inherit; font-weight: 700; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 8px 16px; min-height: 44px; cursor: pointer; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 system-ui, "Segoe UI", Roboto, "Noto Sans Arabic", Tahoma, sans-serif; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+  .hero { background: linear-gradient(180deg, var(--lilac), var(--bg)); padding: 18px 0 8px; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand img { width: 56px; height: 56px; border-radius: 16px; }
+  .brand b { font-size: 1.7rem; color: var(--forest); letter-spacing: .5px; }
+  nav { display: flex; gap: 6px; }
+  nav button { font: inherit; font-weight: 700; font-size: .95rem; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 6px 14px; min-height: 44px; cursor: pointer; }
   nav button[aria-pressed="true"] { background: var(--forest); color: var(--on); border-color: var(--forest); }
-  .get { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; margin-top: 18px; background: var(--card); border-radius: 22px; padding: 18px; }
-  .dl { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--forest); color: var(--on); text-decoration: none; font-weight: 800; font-size: 1.15rem; padding: 14px 22px; border-radius: 16px; min-height: 56px; }
-  .meta { margin: 10px 0 0; color: var(--soft); font-size: .92rem; }
+  .banner { width: 100%; height: auto; display: block; border-radius: 24px; margin: 16px 0 0; box-shadow: 0 10px 30px rgba(60, 40, 110, .15); }
+  h1 { font-size: 1.6rem; line-height: 1.25; margin: 18px 0 6px; }
+  .lead { margin: 0; color: var(--soft); }
+  .get { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; background: var(--card); border-radius: 24px; padding: 18px; margin: 18px 0 0; border: 1.5px solid var(--line); }
+  .btns { display: grid; gap: 10px; }
+  .dl { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--forest); color: var(--on); text-decoration: none; font-weight: 800; font-size: 1.1rem; padding: 14px 18px; border-radius: 16px; min-height: 56px; text-align: center; }
+  .dl.alt { background: transparent; color: var(--forest); border: 2px solid var(--forest); font-size: 1rem; min-height: 48px; }
+  .meta { margin: 2px 0 0; color: var(--soft); font-size: .88rem; }
   .qr { text-align: center; }
-  .qr img { width: 150px; height: 150px; background: #fff; border-radius: 12px; padding: 4px; }
-  .qr p { margin: 4px 0 0; font-size: .82rem; color: var(--soft); max-width: 160px; }
-  main { padding: 8px 16px 56px; }
-  section[hidden] { display: none; }
-  h2 { font-size: 1.2rem; margin: 26px 0 8px; }
-  ol, ul { padding-inline-start: 1.3em; margin: 0; display: grid; gap: 8px; }
-  .note { background: var(--card); border: 1.5px solid var(--line); border-radius: 16px; padding: 12px 14px; margin-top: 14px; color: var(--soft); }
+  .qr img { width: 160px; height: 160px; border-radius: 18px; background: #fff; }
+  .qr a { display: inline-block; margin-top: 4px; font-size: .88rem; color: var(--forest); font-weight: 700; }
+  h2 { font-size: 1.2rem; margin: 30px 0 10px; }
+  .shots { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 14px; }
+  .shots img { flex: none; width: min(62vw, 250px); height: auto; aspect-ratio: 9 / 16; border-radius: 22px; scroll-snap-align: start; box-shadow: 0 6px 18px rgba(0, 0, 0, .12); background: var(--lilac); }
+  .feat { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; padding: 0; margin: 0; list-style: none; }
+  .feat li { background: var(--card); border: 1.5px solid var(--line); border-radius: 18px; padding: 12px 14px; }
+  details { background: var(--card); border: 1.5px solid var(--line); border-radius: 18px; padding: 12px 16px; margin-top: 14px; }
+  summary { font-weight: 800; cursor: pointer; min-height: 32px; }
+  details ol { margin: 10px 0 0; padding-inline-start: 1.3em; display: grid; gap: 6px; }
+  footer { color: var(--soft); font-size: .88rem; padding: 26px 0 40px; }
   a { color: var(--forest); }
   :focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
-  @media (max-width: 560px) { .get { grid-template-columns: 1fr; } .qr { order: -1; } }
+  @media (max-width: 600px) { .get { grid-template-columns: 1fr; } .qr { order: -1; } h1 { font-size: 1.35rem; } }
 </style>
 </head>
 <body>
-<div class="band"><div class="wrap">
-  <header>
-    <img src="icon.png" alt="">
-    <div>
-      <h1>Bloom</h1>
-      <p class="sub" id="sub">Тестовая версия для Android</p>
-    </div>
-  </header>
-  <nav aria-label="Language">
-    <button type="button" data-l="ru">Русский</button>
-    <button type="button" data-l="en">English</button>
-    <button type="button" data-l="ar">العربية</button>
-  </nav>
+<div class="hero"><div class="wrap">
+  <div class="top">
+    <div class="brand"><img src="icon.png" alt=""><b>Bloom</b></div>
+    <nav aria-label="Language">
+      <button type="button" data-l="en">English</button>
+      <button type="button" data-l="ar">العربية</button>
+      <button type="button" data-l="fr">Français</button>
+    </nav>
+  </div>
+  <img class="banner" src="previews/banner.webp" width="1024" height="500" alt="Bloom">
+  <h1 data-t="h1"></h1>
+  <p class="lead" data-t="lead"></p>
   <div class="get">
-    <div>
-      <a class="dl" id="dl" href="https://github.com/ViolettaNcl/bloom-beta/releases/latest/download/Bloom.apk">⬇ <span id="dlText">Скачать Bloom</span></a>
-      <p class="meta" id="meta">Android 8 и новее · около 18 МБ · без рекламы и без интернета</p>
+    <div class="btns">
+      <a class="dl" href="https://github.com/ViolettaNcl/bloom-beta/releases/download/preview/Bloom-preview.apk">⬇ <span data-t="dl"></span></a>
+      <p class="meta" data-t="meta"></p>
+      <a class="dl alt" href="https://github.com/ViolettaNcl/bloom-beta/releases/download/preview/Bloom-full.apk" data-t="full"></a>
     </div>
-    <div class="qr"><img src="qr.png" alt="QR"><p id="qrText">Отсканируйте камерой телефона, чтобы открыть эту страницу</p></div>
+    <div class="qr"><img src="qr.png" alt="QR" width="160" height="160"><br><a href="bloom-qr-card.png" download data-t="card"></a></div>
   </div>
 </div></div>
 
-<main><div class="wrap">
-<section data-l="ru" lang="ru">
-  <h2>Как установить</h2>
-  <ol>
-    <li>Откройте эту страницу <b>на телефоне Android</b> и нажмите «Скачать Bloom».</li>
-    <li>Когда файл скачается, нажмите «Открыть». Если телефон спросит, разрешите браузеру устанавливать приложения («Неизвестные приложения» → «Разрешить»).</li>
-    <li>Если Google Play Защита предупредит о неизвестном разработчике, нажмите «Подробнее» → «Всё равно установить». Это тестовая версия, её ещё нет в Play Маркете.</li>
-    <li>Откройте приложение <b>Bloom Dev</b> и выберите English или العربية.</li>
-  </ol>
-  <h2>Чтобы Bloom говорил</h2>
-  <p>Настройки → Система → Языки → Синтез речи → Google → установите английский и арабский голос.</p>
-  <h2>Что проверить</h2>
-  <ul>
-    <li>Сад, «Путь мышления» и новые задания: дорожка цифр, обводка пальцем, две корзины, тайный код, счёты, дороги букв.</li>
-    <li>Talk: составить фразу и послушать её.</li>
-    <li>Арабский интерфейс, звук и музыку (их можно выключить).</li>
-    <li>Удобно ли ребёнку, всё ли спокойно и понятно.</li>
+<main class="wrap">
+  <h2 data-t="look"></h2>
+  <div class="shots">
+    <img src="previews/preview_01.webp" width="540" height="960" alt="" loading="lazy">
+    <img src="previews/preview_02.webp" width="540" height="960" alt="" loading="lazy">
+    <img src="previews/preview_03.webp" width="540" height="960" alt="" loading="lazy">
+    <img src="previews/preview_04.webp" width="540" height="960" alt="" loading="lazy">
+    <img src="previews/preview_05.webp" width="540" height="960" alt="" loading="lazy">
+    <img src="previews/preview_06.webp" width="540" height="960" alt="" loading="lazy">
+  </div>
+  <ul class="feat">
+    <li data-t="f1"></li><li data-t="f2"></li><li data-t="f3"></li><li data-t="f4"></li>
   </ul>
-  <p class="note">Напишите замечания тому, кто прислал вам эту ссылку: модель телефона, что делали и что заметили. Новые версии ставятся поверх по этой же ссылке, данные сохраняются. Приложение работает без интернета и ничего никуда не отправляет.</p>
-</section>
-
-<section data-l="en" lang="en" hidden>
-  <h2>How to install</h2>
-  <ol>
-    <li>Open this page <b>on an Android phone</b> and tap Download Bloom.</li>
-    <li>When the file has downloaded, tap Open. If the phone asks, allow your browser to install apps (Install unknown apps → Allow).</li>
-    <li>If Google Play Protect warns about an unknown developer, tap More details → Install anyway. This is a test version and is not on Google Play yet.</li>
-    <li>Open <b>Bloom Dev</b> and choose English or العربية.</li>
-  </ol>
-  <h2>To hear Bloom speak</h2>
-  <p>Settings → System → Languages → Text-to-speech → Google → install the English and Arabic voices.</p>
-  <h2>What to try</h2>
-  <ul>
-    <li>The garden, the thinking path and the new tasks: number trail, finger tracing, two baskets, secret key, abacus, letter roads.</li>
-    <li>Talk: build a sentence and listen to it.</li>
-    <li>The Arabic layout, sound and music (both can be turned off).</li>
-    <li>Whether everything feels calm and clear for a child.</li>
-  </ul>
-  <p class="note">Send your notes to the person who shared this link: your phone model, what you did and what you noticed. New versions install over the old one from this same link and keep the data. The app works offline and sends nothing anywhere.</p>
-</section>
-
-<section data-l="ar" lang="ar" dir="rtl" hidden>
-  <h2>طريقة التثبيت</h2>
-  <ol>
-    <li>افتح هذه الصفحة <b>على هاتف أندرويد</b> واضغط «تنزيل بلوم».</li>
-    <li>بعد اكتمال التنزيل اضغط «فتح». إذا طلب الهاتف ذلك، اسمح للمتصفح بتثبيت التطبيقات (تثبيت تطبيقات غير معروفة ← سماح).</li>
-    <li>إذا ظهر تحذير من Google Play Protect بشأن مطوّر غير معروف، اضغط «مزيد من التفاصيل» ← «التثبيت على أي حال». هذه نسخة تجريبية وليست في Google Play بعد.</li>
-    <li>افتح تطبيق <b>بلوم تجريبي</b> واختر العربية أو English.</li>
-  </ol>
-  <h2>لكي يتكلم بلوم</h2>
-  <p>الإعدادات ← النظام ← اللغات ← تحويل النص إلى كلام ← Google ← ثبّت الصوت العربي والإنجليزي.</p>
-  <h2>ماذا تجرّب</h2>
-  <ul>
-    <li>الحديقة ودرب التفكير والمهام الجديدة: درب الأعداد، التتبّع بالإصبع، السلّتان، المفتاح السري، العدّاد، طرق الحروف.</li>
-    <li>التواصل: كوّن جملة واستمع إليها.</li>
-    <li>الواجهة العربية والأصوات والموسيقى (يمكن إيقافها).</li>
-    <li>هل كل شيء هادئ وواضح للطفل؟</li>
-  </ul>
-  <p class="note">أرسل ملاحظاتك إلى من أرسل لك هذا الرابط: نوع الهاتف، وما فعلته، وما لاحظته. تُثبَّت النسخ الجديدة فوق القديمة من الرابط نفسه وتبقى البيانات. يعمل التطبيق دون إنترنت ولا يرسل أي شيء.</p>
-</section>
-</div></main>
+  <details>
+    <summary data-t="howh"></summary>
+    <ol><li data-t="s1"></li><li data-t="s2"></li><li data-t="s3"></li></ol>
+  </details>
+  <footer data-t="foot"></footer>
+</main>
 
 <script>
 const T = {
-  ru: { sub: "Тестовая версия для Android", dl: "Скачать Bloom", meta: "Android 8 и новее · около 18 МБ · без рекламы и без интернета", qr: "Отсканируйте камерой телефона, чтобы открыть эту страницу", title: "Bloom: тестовая версия" },
-  en: { sub: "Android test version", dl: "Download Bloom", meta: "Android 8 or later · about 18 MB · no ads, works offline", qr: "Scan with your phone camera to open this page", title: "Bloom: test version" },
-  ar: { sub: "نسخة تجريبية لأندرويد", dl: "تنزيل بلوم", meta: "أندرويد ٨ أو أحدث · نحو ١٨ ميغابايت · بلا إعلانات ويعمل دون إنترنت", qr: "امسح الرمز بكاميرا الهاتف لفتح هذه الصفحة", title: "بلوم: نسخة تجريبية" },
+  en: { title: "Bloom: test version", h1: "Calm learning and play for children", lead: "Puzzles in 24 magic worlds, picture talk and a calm day plan. No ads, works offline.",
+    dl: "Download for Android", meta: "Android 8 or later · about 340 MB", full: "Full version (also for tablets and emulators) · 412 MB", card: "Save the QR card",
+    look: "A look inside", f1: "🌸 120 puzzles that grow step by step", f2: "🗣️ Talk with pictures and Bloom's voice", f3: "🗓️ My day: first, then, stories", f4: "🌙 Calm: no timers, no punishment",
+    howh: "How to install", s1: "Open this page on an Android phone and tap Download.", s2: "Open the file. If asked, allow your browser to install apps.", s3: "If Play Protect warns you, tap More details → Install anyway. This is a test version.",
+    foot: "Test version. New versions install over the old one from this same page and keep your progress." },
+  ar: { title: "بلوم: نسخة تجريبية", h1: "تعلّم ولعب بهدوء للأطفال", lead: "ألغاز في ٢٤ عالمًا ساحرًا، وتواصل بالصور، وخطة يوم هادئة. بلا إعلانات ويعمل دون إنترنت.",
+    dl: "تنزيل لأندرويد", meta: "أندرويد ٨ أو أحدث · نحو ٣٤٠ ميغابايت", full: "النسخة الكاملة (للأجهزة اللوحية والمحاكيات أيضًا) · ٤١٢ ميغابايت", card: "احفظ بطاقة الرمز",
+    look: "نظرة من الداخل", f1: "🌸 ١٢٠ لغزًا تزداد صعوبتها خطوة بخطوة", f2: "🗣️ تواصل بالصور وصوت بلوم", f3: "🗓️ يومي: أولًا، ثم، وقصص", f4: "🌙 هادئ: بلا مؤقتات وبلا عقاب",
+    howh: "طريقة التثبيت", s1: "افتح هذه الصفحة على هاتف أندرويد واضغط تنزيل.", s2: "افتح الملف. إذا طُلب منك، اسمح للمتصفح بتثبيت التطبيقات.", s3: "إذا ظهر تحذير من Play Protect، اضغط مزيد من التفاصيل ← التثبيت على أي حال. هذه نسخة تجريبية.",
+    foot: "نسخة تجريبية. تُثبَّت النسخ الجديدة فوق القديمة من هذه الصفحة نفسها ويبقى التقدّم محفوظًا." },
+  fr: { title: "Bloom : version test", h1: "Apprendre et jouer en douceur", lead: "Des énigmes dans 24 mondes magiques, la parole en images et une journée calme. Sans publicité, sans internet.",
+    dl: "Télécharger pour Android", meta: "Android 8 ou plus · environ 340 Mo", full: "Version complète (tablettes et émulateurs aussi) · 412 Mo", card: "Enregistrer la carte QR",
+    look: "Un aperçu", f1: "🌸 120 énigmes qui progressent pas à pas", f2: "🗣️ Parler avec des images et la voix de Bloom", f3: "🗓️ Ma journée : d'abord, ensuite, histoires", f4: "🌙 Calme : pas de minuteur, pas de punition",
+    howh: "Comment installer", s1: "Ouvrez cette page sur un téléphone Android et touchez Télécharger.", s2: "Ouvrez le fichier. Si demandé, autorisez le navigateur à installer des applis.", s3: "Si Play Protect vous avertit, touchez Plus de détails → Installer quand même. C'est une version test.",
+    foot: "Version test. Les nouvelles versions s'installent par-dessus depuis cette même page et gardent la progression." },
 };
 function show(l) {
-  document.querySelectorAll("section[data-l]").forEach(s => s.hidden = s.dataset.l !== l);
-  document.querySelectorAll("nav button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.l === l)));
   const t = T[l];
-  document.getElementById("sub").textContent = t.sub; document.getElementById("dlText").textContent = t.dl;
-  document.getElementById("meta").textContent = t.meta; document.getElementById("qrText").textContent = t.qr;
-  document.documentElement.lang = l; document.title = t.title;
-  document.querySelector(".band").dir = l === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-t]").forEach(e => e.textContent = t[e.dataset.t]);
+  document.querySelectorAll("nav button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.l === l)));
+  document.documentElement.lang = l; document.documentElement.dir = l === "ar" ? "rtl" : "ltr"; document.title = t.title;
   try { localStorage.setItem("bloom-beta-lang", l); } catch (_) {}
 }
 document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => show(b.dataset.l)));
-let start = "ru";
+let start = "";
 try { start = localStorage.getItem("bloom-beta-lang") || ""; } catch (_) {}
-if (!T[start]) { const n = (navigator.language || "ru").slice(0, 2); start = T[n] ? n : "en"; }
+if (!T[start]) { const n = (navigator.language || "en").slice(0, 2); start = T[n] ? n : "en"; }
 show(start);
 </script>
 </body>
